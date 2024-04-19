@@ -9,6 +9,7 @@ const App = () => {
   const [currentNumber, setCurrentNumber] = useState('0');
   const [firstNumber, setFirstNumber] = useState('0');
   const [operation, setOperation] = useState('');
+  
 
   const handleOnClear = () => {
     setCurrentNumber("0");
@@ -38,8 +39,44 @@ const App = () => {
       setCurrentNumber("0");
       setOperation("-");
     } else {
-      const sum = Number(firstNumber) - Number(currentNumber);
-      setCurrentNumber(String(sum));
+      const minus = Number(firstNumber) - Number(currentNumber);
+      setCurrentNumber(String(minus));
+      setOperation("");
+    }
+  };
+
+  const handleDecimalPoint = () => {
+    if (!currentNumber.includes(".")) {
+      setCurrentNumber((prev) => {
+        if (prev === "") {
+          return "0.";
+        } else {
+          return `${prev}.`;
+        }
+      });
+    }
+  };
+
+  const handleMultipliyingNumbers = () => {
+    if (firstNumber === "0") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber("0");
+      setOperation("x");
+    } else {
+      const multiplying = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(multiplying));
+      setOperation("");
+    }
+  };
+
+  const handleDivisibleNumbers = () => {
+    if (firstNumber === "0") {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber("0");
+      setOperation("/");
+    } else {
+      const divisible = Number(firstNumber) / Number(currentNumber);
+      setCurrentNumber(String(divisible));
       setOperation("");
     }
   };
@@ -53,6 +90,15 @@ const App = () => {
         case "-":
           handleMinusNumbers();
           break;
+        case "x":
+          handleMultipliyingNumbers();
+          break;
+        case "/":
+          handleDivisibleNumbers();
+          break;
+        case ".":
+          handleDecimalPoint();
+          break;
         default:
           break;
       }
@@ -64,10 +110,10 @@ const App = () => {
       <Content>
         <Input value={currentNumber} />
         <Row>
-          <Button label="X" onClick={() => handleAddNumber("0")} />
-          <Button label="/" onClick={() => handleAddNumber("")} />
+          <Button label="x" onClick={handleMultipliyingNumbers} />
+          <Button label="/" onClick={handleDivisibleNumbers} />
           <Button label="C" onClick={handleOnClear} />
-          <Button label="." onClick={() => handleAddNumber("")} />
+          <Button label="." onClick={handleDecimalPoint} />
         </Row>
         <Row>
           <Button label="7" onClick={() => handleAddNumber("7")} />
@@ -86,6 +132,9 @@ const App = () => {
           <Button label="2" onClick={() => handleAddNumber("2")} />
           <Button label="3" onClick={() => handleAddNumber("3")} />
           <Button label="=" onClick={handleEquals} />
+        </Row>
+        <Row>
+          <Button label="0" onClick={() => handleAddNumber("0")} />
         </Row>
       </Content>
     </Container>
